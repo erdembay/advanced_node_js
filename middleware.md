@@ -8,3 +8,23 @@ app.get('/route', (req, res, next) => {
     next();
 });
 ```
+- ***Third-Party Middleware:*** Harici kütüphaneler tarafından sağlanan middleware'ler (`body-parser`, `cors`).
+```
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+```
+- ***Hata Yakalama Middleware:*** Hataları işlemek için kullanılan özel middleware'ler.
+```
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Bir hata oluştu!');
+});
+```
+**Middleware Kullanım Senaryoları**
+
+- ***Kimlik Doğrulama:*** Kullanıcının oturum açma durumunu kontrol etmek.
+- ***Loglama:*** İsteklerin ve yanıtların kaydını tutmak.
+- ***Hata Yönetimi:*** Beklenmeyen hataları işlemek.
+- ***İstek Verilerini İşlemek:*** JSON veya URL-encoded verileri ayrıştırmak.
+
+---
