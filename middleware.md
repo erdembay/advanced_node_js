@@ -1,5 +1,5 @@
-> [Middleware Çeşitleri](#middleware-çeşitleri)
-> [Middleware Kullanım Senaryoları](#middleware-kullanım-senaryoları)
+> - [Middleware Çeşitleri](#middleware-çeşitleri)
+> - [Middleware Kullanım Senaryoları](#middleware-kullanım-senaryoları)
 
 ## **Middleware Çeşitleri**
 
