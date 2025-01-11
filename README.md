@@ -21,7 +21,7 @@ npm init
 ```
 npm i ${packageName}
 ```
-> Örnek = `npm i express`
+> Örnek : `npm i express`
 ---
 
 ## **Middleware Nedir? Nasıl Çalışır?**
