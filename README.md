@@ -9,7 +9,7 @@ Bu doküman, nodejs derslerinde notlar alınması ve hatırlatmalar için yazıl
 - [Middleware Nedir? Nasıl Çalışır?](#middleware-nedir-nasıl-çalışır)
 ---
 
-## **NodeJS Hakkında Bilgi
+## **NodeJS Hakkında Bilgi**
 
 - `NodeJS projesi oluşturmak` için;
 ```
