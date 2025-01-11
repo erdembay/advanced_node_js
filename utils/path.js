@@ -1,2 +1,2 @@
 const path = require("path"); // path modülü eklendi
-module.exports = path.dirname(process.mainModule.filename); // ana modülün dizin adı dışarıya aktarıldı
+module.exports = path.dirname(require.main.filename); // root dizin yolu döndürüldü
