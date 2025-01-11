@@ -1,12 +1,15 @@
-const path = require("path"); // path modülü eklendi
-const rootDir = require("../utils/path"); // rootDir modülü eklendi
 const express = require("express"); // express modülü eklendi
 const router = express.Router(); // express router oluşturuldu
+const products = []; // products dizisi oluşturuldu
 router.get("/add-product", (req, res, next) => {
-  res.sendFile(path.join(rootDir, "views", "add-product.html")); // isteğe karşılık h1 etiketi içeren bir yazı gönderildi
+  res.render("add-product", {
+    pageTitle: "Add Product",
+    path: "/admin/add-product",
+  }); // add-product.ejs sayfası gönderildi
 });
 router.post("/add-product", (req, res, next) => {
-  console.log(req.body); // istek gövdesi konsola yazdırıldı
+  products.push({ title: req.body.title }); // products dizisine title anahtarı ile birlikte istekten gelen title değeri eklendi
   res.redirect("/"); // yönlendirme yapıldı
 });
-module.exports = router; // router dışarıya aktarıldı
+exports.routes = router; // router dışarıya aktarıldı
+exports.products = products; // products dışarıya aktarıldı
