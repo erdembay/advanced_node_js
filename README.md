@@ -42,6 +42,6 @@ app.use((req, res, next) => {
     next(); // Bir sonraki middleware'e geç
 });
 ```
-
+> [Detaylar İçin => ](middleware.md)
 
 ---
