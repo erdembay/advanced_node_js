@@ -29,6 +29,7 @@ npm i ${packageName}
 - Node.js'de middleware, bir uygulamanın istek-yanıt döngüsünde belirli bir işlevselliği yerine getiren bir fonksiyondur. Middleware, genellikle bir HTTP isteği geldiğinde, sunucunun bu isteği işlemesi ve istemciye bir yanıt göndermesi sırasında araya giren kod parçalarıdır.
 
 **Middleware Yapısı**
+
 Middleware bir fonksiyondur ve genellikle şu parametreleri alır:
 - `req`: İstek (request) nesnesi.
 - `res`: Yanıt (response) nesnesi.
