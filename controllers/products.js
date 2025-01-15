@@ -1,4 +1,4 @@
-const products = []; // products dizisi oluşturuldu
+const Product = require("../models/product"); // Product modeli import edildi
 exports.getAddProduct = (req, res, next) => {
   res.render("add-product", {
     pageTitle: "Add Product",
@@ -9,17 +9,21 @@ exports.getAddProduct = (req, res, next) => {
   });
 };
 exports.postAddProduct = (req, res, next) => {
-  products.push({ title: req.body.title }); // products dizisine title anahtarı ile birlikte istekten gelen title değeri eklendi
+  const product = new Product(req.body.title); // Product modelinden bir obje oluşturuldu
+  product.save(); // save metodu çağrıldı
   res.redirect("/"); // yönlendirme yapıldı
 };
 exports.getProducts = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
-  res.render("shop", {
-    prods: products,
-    pageTitle: "Shop",
-    path: "/",
-    hasProducts: products.length > 0,
-    activeShop: true,
-    productCSS: true,
-  }); // shop.ejs sayfası gönderildi
+  Product.fetchAll((products) => {
+    // fetchAll metodu çağrıldı
+    res.render("shop", {
+      prods: products,
+      pageTitle: "Shop",
+      path: "/",
+      hasProducts: products.length > 0,
+      activeShop: true,
+      productCSS: true,
+    }); // shop.ejs sayfası gönderildi
+  });
 };
