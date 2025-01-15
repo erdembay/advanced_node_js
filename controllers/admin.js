@@ -17,10 +17,22 @@ exports.getProducts = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
   Product.fetchAll((products) => {
     // fetchAll metodu çağrıldı
+    res.render("admin/products", {
+      prods: products,
+      pageTitle: "Admin Products",
+      path: "/admin/products",
+      hasProducts: products.length > 0,
+    }); //
+  });
+};
+exports.getAllProducts = (req, res, next) => {
+  // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
+  Product.fetchAll((products) => {
+    // fetchAll metodu çağrıldı
     res.render("shop/product-list", {
       prods: products,
-      pageTitle: "Shop",
-      path: "/",
+      pageTitle: "Products",
+      path: "/products",
       hasProducts: products.length > 0,
       activeShop: true,
       productCSS: true,
