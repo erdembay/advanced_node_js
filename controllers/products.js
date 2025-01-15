@@ -1,6 +1,6 @@
 const Product = require("../models/product"); // Product modeli import edildi
 exports.getAddProduct = (req, res, next) => {
-  res.render("add-product", {
+  res.render("admin/add-product", {
     pageTitle: "Add Product",
     path: "/admin/add-product",
     formCSS: true,
@@ -17,7 +17,7 @@ exports.getProducts = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
   Product.fetchAll((products) => {
     // fetchAll metodu çağrıldı
-    res.render("shop", {
+    res.render("shop/product-list", {
       prods: products,
       pageTitle: "Shop",
       path: "/",
