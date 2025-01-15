@@ -15,9 +15,12 @@ const getProductsFromFile = (cb) => {
   });
 };
 module.exports = class Product {
-  constructor(t) {
-    // t is the title of the product
-    this.title = t;
+  constructor(title, imageUrl, description, price) {
+    // title is the title of the product
+    this.title = title;
+    this.imageUrl = imageUrl;
+    this.description = description;
+    this.price = price;
   }
   save() {
     // Code to save the product to the database
