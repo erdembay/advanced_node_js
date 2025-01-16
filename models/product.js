@@ -23,6 +23,7 @@ module.exports = class Product {
     this.price = price;
   }
   save() {
+    this.id = Math.random().toString(); // Türkçe : id değeri rastgele bir sayıya çevrildi
     // Code to save the product to the database
     // products.push(this); // this refers to the object that is created based on the class
     getProductsFromFile((products) => {
