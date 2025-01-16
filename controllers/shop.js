@@ -38,3 +38,10 @@ exports.getCheckout = (req, res, next) => {
     path: "/checkout",
   }); // checkout.ejs sayfası gönderildi
 };
+exports.getOrders = (req, res, next) => {
+  // checkout dizinine gelen GET isteğine karşılık bir fonksiyon tanımlandı
+  res.render("shop/orders", {
+    pageTitle: "My Orders",
+    path: "/orders",
+  }); // checkout.ejs sayfası gönderildi
+};
