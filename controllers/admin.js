@@ -9,9 +9,13 @@ exports.getAddProduct = (req, res, next) => {
   });
 };
 exports.postAddProduct = (req, res, next) => {
-  const product = new Product(req.body.title); // Product modelinden bir obje oluşturuldu
+  const title = req?.body?.title; // title değişkeni oluşturuldu
+  const imageUrl = req?.body?.imageUrl; // imageUrl değişkeni oluşturuldu
+  const price = req?.body?.price; // price değişkeni oluşturuldu
+  const description = req?.body?.description; // description değişkeni oluşturuldu
+  const product = new Product(title, imageUrl, description, price); // Product modelinden bir obje oluşturuldu
   product.save(); // save metodu çağrıldı
-  res.redirect("/"); // yönlendirme yapıldı
+  res.redirect("/products"); // yönlendirme yapıldı
 };
 exports.getProducts = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
