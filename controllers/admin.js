@@ -80,3 +80,8 @@ exports.getAllProducts = (req, res, next) => {
     }); // shop.ejs sayfası gönderildi
   });
 };
+exports.deleteProduct = (req, res, next) => {
+  const prodId = req.body.productId; // productId parametresi alındı
+  Product.deleteById(prodId); // deleteById metodu çağrıldı
+  res.redirect("/admin/products"); // yönlendirme yapıldı
+};

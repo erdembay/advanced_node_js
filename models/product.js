@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const Cart = require("./cart");
 const p = path.join(
   path.dirname(require.main.filename),
   "data",
@@ -56,6 +57,20 @@ module.exports = class Product {
     getProductsFromFile((products) => {
       const product = products.find((p) => p.id === id);
       cb(product);
+    });
+  }
+  static deleteById(id) {
+    getProductsFromFile((products) => {
+      const product = products.find((p) => p.id === id);
+      const updatedProducts = products.filter((p) => p.id !== id); // Türkçe : id değeri eşit olmayan ürünler updatedProducts dizisine atandı
+      fs.writeFile(p, JSON.stringify(updatedProducts), (err) => {
+        if (err) {
+          // Türkçe : updatedProducts dizisi JSON formatına çevrildi ve dosyaya yazılması sağlandı
+          console.log(err);
+        } else {
+          Cart.deleteProduct(id, product.price);
+        }
+      });
     });
   }
 };
