@@ -15,24 +15,37 @@ const getProductsFromFile = (cb) => {
   });
 };
 module.exports = class Product {
-  constructor(title, imageUrl, description, price) {
+  constructor(id, title, imageUrl, description, price) {
     // title is the title of the product
+    this.id = id;
     this.title = title;
     this.imageUrl = imageUrl;
     this.description = description;
     this.price = price;
   }
   save() {
-    this.id = Math.random().toString(); // Türkçe : id değeri rastgele bir sayıya çevrildi
     // Code to save the product to the database
     // products.push(this); // this refers to the object that is created based on the class
     getProductsFromFile((products) => {
       // Türkçe : getProductsFromFile fonksiyonu çağrıldı
-      products.push(this);
-      fs.writeFile(p, JSON.stringify(products), (err) => {
-        // Türkçe : products dizisi JSON formatına çevrildi ve dosyaya yazılması sağlandı
-        if (err) console.log(err);
-      });
+      if (this.id) {
+        const existingProdcutIndex = products.findIndex(
+          (p) => p.id === this.id
+        );
+        const updatedProducts = [...products];
+        updatedProducts[existingProdcutIndex] = this;
+        fs.writeFile(p, JSON.stringify(updatedProducts), (err) => {
+          // Türkçe : updatedProducts dizisi JSON formatına çevrildi ve dosyaya yazılması sağlandı
+          if (err) console.log(err);
+        });
+      } else {
+        this.id = Math.random().toString(); // Türkçe : id değeri rastgele bir sayıya çevrildi
+        products.push(this);
+        fs.writeFile(p, JSON.stringify(products), (err) => {
+          // Türkçe : products dizisi JSON formatına çevrildi ve dosyaya yazılması sağlandı
+          if (err) console.log(err);
+        });
+      }
     });
   }
   static fetchAll(cb) {
