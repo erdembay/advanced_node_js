@@ -11,7 +11,7 @@ exports.getAddProduct = (req, res, next) => {
 exports.postAddProduct = (req, res, next) => {
   const title = req?.body?.title; // title değişkeni oluşturuldu
   const imageUrl = req?.body?.imageUrl; // imageUrl değişkeni oluşturuldu
-  const price = req?.body?.price; // price değişkeni oluşturuldu
+  const price = parseFloat(req?.body?.price); // price değişkeni oluşturuldu
   const description = req?.body?.description; // description değişkeni oluşturuldu
   const product = new Product(title, imageUrl, description, price); // Product modelinden bir obje oluşturuldu
   product.save(); // save metodu çağrıldı
