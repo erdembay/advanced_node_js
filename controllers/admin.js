@@ -32,7 +32,7 @@ exports.postEditProduct = (req, res, next) => {
   // edit-product sayfasına yönlendirme yapılır
   const prodId = req.body.productId; // productId parametresi alınır
   const updatedTitle = req.body.title; // title parametresi alınır
-  const updatedPrice = req.body.price; // price parametresi alınır
+  const updatedPrice = parseFloat(req.body.price); // price parametresi alınır
   const updatedImageUrl = req.body.imageUrl; // imageUrl parametresi alınır
   const updatedDesc = req.body.description; // description parametresi alınır
   const updatedProduct = new Product(

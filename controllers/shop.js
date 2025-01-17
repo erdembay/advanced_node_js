@@ -40,17 +40,35 @@ exports.getIndex = (req, res, next) => {
 };
 exports.getCart = (req, res, next) => {
   // cart dizinine gelen GET isteğine karşılık bir fonksiyon tanımlandı
-  res.render("shop/cart", {
-    pageTitle: "Cart",
-    path: "/cart",
-  }); // cart.ejs sayfası gönderildi
+  Cart.getCart((cart) => {
+    // getCart metodu çağrıldı
+    Product.fetchAll((products) => {
+      // fetchAll metodu çağrıldı
+      const cartProducts = [];
+      for (product of products) {
+        const cartProductData = cart.products.find(
+          (prod) => prod.id === product.id
+        );
+        if (cartProductData) {
+          cartProducts.push({ productData: product, qty: cartProductData.qty });
+        }
+      }
+      console.log(cartProducts);
+      res.render("shop/cart", {
+        pageTitle: "Cart",
+        path: "/cart",
+        products: cartProducts,
+        total: 0,
+      }); // cart.ejs sayfası gönderildi
+    });
+  });
 };
 exports.postCart = (req, res, next) => {
   // cart dizinine gelen POST isteğine karşılık bir fonksiyon tanımlandı
   const prodId = req.body.productId; // productId parametresi alındı
-  Product.findById(prodId, (product) => { 
+  Product.findById(prodId, (product) => {
     // findById metodu çağrıldı
-    Cart.addProduct(prodId, product.price); 
+    Cart.addProduct(prodId, product.price);
     // addProduct metodu çağrıldı
   }); // findById metodu çağrıldı
   res.redirect("/cart"); // cart sayfasına yönlendirme yapıldı
@@ -69,7 +87,13 @@ exports.getOrders = (req, res, next) => {
     path: "/orders",
   }); // checkout.ejs sayfası gönderildi
 };
-exports.deleteProduct = (req, res, next) => {
-  // product dizinine gelen GET isteğine karşılık bir fonksiyon tanımlandı
+exports.postCartDeleteProduct = (req, res, next) => {
+  // cart-delete-item dizinine gelen POST isteğine karşılık bir fonksiyon tanımlandı
   const prodId = req.body.productId; // productId parametresi alındı
+  Product.findById(prodId, (product) => {
+    // findById metodu çağrıldı
+    Cart.deleteProduct(prodId, product.price);
+    // deleteProduct metodu çağrıldı
+    res.redirect("/cart"); // cart sayfasına yönlendirme yapıldı
+  });
 };

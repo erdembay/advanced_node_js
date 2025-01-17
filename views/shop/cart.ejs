@@ -4,5 +4,55 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
     <main>
+        <div class="container">
+            <h1>Cart</h1>
+            <div class="cart">
+                <% if (products.length > 0) { %>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% products.forEach(product => { %>
+                                <tr>
+                                    <td>
+                                        <div class="product">
+                                            <img width="5%" src="<%= product.productData.imageUrl %>" alt="<%= product.productData.title %>">
+                                            <div>
+                                                <h3><%= product.productData.title %></h3>
+                                                <p><%= product.productData.description %></p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>$<%= product.productData.price %></td>
+                                    <td>
+                                        <input type="number" value="<%= product.qty %>" min="1" max="10" data-id="<%= product.productData.id %>" class="quantity">
+                                    </td>
+                                    <td>$<%= product.productData.price * product.qty %></td>
+                                    <td>
+                                        <form action="/cart-delete-item" method="POST">
+                                            <input type="hidden" name="productId" value="<%= product.productData.id %>">
+                                            <button class="btn">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                    <div class="total">
+                        <h3>Total: $<%= total %></h3>
+                        <a href="/shop/checkout" class="button">Checkout</a>
+                    </div>
+                <% } else { %>
+                    <p>Your cart is empty</p>
+                <% } %>
+            </div>
+        </div>
     </main>
 <%- include('../includes/end.ejs') %>
