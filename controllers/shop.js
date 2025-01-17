@@ -45,20 +45,21 @@ exports.getCart = (req, res, next) => {
     Product.fetchAll((products) => {
       // fetchAll metodu çağrıldı
       const cartProducts = [];
+      let total = 0;
       for (product of products) {
         const cartProductData = cart.products.find(
           (prod) => prod.id === product.id
         );
         if (cartProductData) {
           cartProducts.push({ productData: product, qty: cartProductData.qty });
+          total += product.price * cartProductData.qty;
         }
       }
-      console.log(cartProducts);
       res.render("shop/cart", {
         pageTitle: "Cart",
         path: "/cart",
         products: cartProducts,
-        total: 0,
+        total: total,
       }); // cart.ejs sayfası gönderildi
     });
   });
