@@ -3,6 +3,7 @@ const express = require("express"); // express modülü eklendi
 const rootDir = require("./utils/path"); // rootDir modülü eklendi
 const app = express(); // express uygulaması oluşturuldu
 const errorController = require("./controllers/error"); // errorController modülü eklendi
+const db = require("./utils/database"); // db modülü eklendi
 app.set("view engine", "ejs"); // view engine olarak ejs kullanıldı
 app.set("views", "views"); // views klasörü belirtildi
 const adminRoutes = require("./routes/admin"); // adminRoutes modülü eklendi
