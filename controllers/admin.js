@@ -56,15 +56,17 @@ exports.postAddProduct = (req, res, next) => {
 };
 exports.getProducts = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
-  Product.fetchAll((products) => {
-    // fetchAll metodu çağrıldı
-    res.render("admin/products", {
-      prods: products,
-      pageTitle: "Admin Products",
-      path: "/admin/products",
-      hasProducts: products.length > 0,
-    }); //
-  });
+  Product.fetchAll()
+    .then(([rows, fieldData]) => {
+      // fetchAll metodu çağrıldı
+      res.render("admin/products", {
+        prods: rows,
+        pageTitle: "Admin Products",
+        path: "/admin/products",
+        hasProducts: rows.length > 0,
+      }); //
+    })
+    .catch((err) => console.log(err));
 };
 exports.getAllProducts = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
@@ -82,6 +84,12 @@ exports.getAllProducts = (req, res, next) => {
 };
 exports.deleteProduct = (req, res, next) => {
   const prodId = req.body.productId; // productId parametresi alındı
-  Product.deleteById(prodId); // deleteById metodu çağrıldı
-  res.redirect("/admin/products"); // yönlendirme yapıldı
+  Product.deleteById(prodId)
+    .then(([product]) => {
+      console.log("Deleted product", product); // console'a çıktı verildi
+      res.redirect("/admin/products"); // yönlendirme yapıldı
+    })
+    .catch((err) => {
+      console.log(err);
+    }); // deleteById metodu çağrıldı
 };

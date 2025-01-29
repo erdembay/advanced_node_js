@@ -2,41 +2,53 @@ const Product = require("../models/product"); // Product modeli import edildi
 const Cart = require("../models/cart"); // Cart modeli import edildi
 exports.getProducts = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
-  Product.fetchAll((products) => {
-    // fetchAll metodu çağrıldı
-    res.render("shop/product-list", {
-      prods: products,
-      pageTitle: "Shop",
-      path: "/products",
-      hasProducts: products.length > 0,
-      activeShop: true,
-      productCSS: true,
-    }); // shop.ejs sayfası gönderildi
-  });
+  Product.fetchAll()
+    .then(([rows, fieldData]) => {
+      // fetchAll metodu çağrıldı
+      res.render("shop/product-list", {
+        prods: rows,
+        pageTitle: "Shop",
+        path: "/products",
+        hasProducts: rows.length > 0,
+        activeShop: true,
+        productCSS: true,
+      }); // shop.ejs sayfası gönderildi
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 exports.getProduct = (req, res, next) => {
   // product dizinine gelen GET isteğine karşılık bir fonksiyon tanımlandı
   const prodId = req?.params?.productId; // productId parametresi alındı
-  Product.findById(prodId, (product) => {
-    // findById metodu çağrıldı
-    res.render("shop/product-detail", {
-      product: product,
-      pageTitle: product?.title,
-      path: "/products",
-    }); // product-detail.ejs sayfası gönderildi
-  });
+  Product.findById(prodId)
+    .then(([rows, fieldData]) => {
+      // findById metodu çağrıldı
+      res.render("shop/product-detail", {
+        product: rows[0],
+        pageTitle: rows[0]?.title,
+        path: "/products",
+      }); // product-detail.ejs sayfası gönderildi
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 exports.getIndex = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
-  Product.fetchAll((products) => {
-    // fetchAll metodu çağrıldı
-    res.render("shop/index", {
-      prods: products,
-      pageTitle: "Products",
-      path: "/",
-      hasProducts: products.length > 0,
-    }); // shop.ejs sayfası gönderildi
-  });
+  Product.fetchAll()
+    .then(([rows, fieldData]) => {
+      // fetchAll metodu çağrıldı
+      res.render("shop/index", {
+        prods: rows,
+        pageTitle: "Products",
+        path: "/",
+        hasProducts: rows.length > 0,
+      }); // shop.ejs sayfası gönderildi
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 exports.getCart = (req, res, next) => {
   // cart dizinine gelen GET isteğine karşılık bir fonksiyon tanımlandı

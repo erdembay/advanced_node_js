@@ -12,5 +12,12 @@ app.use(express.urlencoded({ extended: false })); // urlencoded veri alışveri�
 app.use(express.static(path.join(rootDir, "public"))); // public klasörüne erişim sağlandı
 app.use("/admin", adminRoutes); // adminRoutes middleware olarak kullanıldı
 app.use(shopRoutes); // shopRoutes middleware olarak kullanıldı
+db.execute("Select * From products")
+  .catch((err) => {
+    return console.log(err);
+  })
+  .then((res) => {
+    console.log(res[0], res[1]);
+  }); // products tablosundan tüm verileri çek
 app.use(errorController.get404Page); // 404 hatası için errorController.get404 fonksiyonu kullanıldı
 app.listen(3000); // 3000 portu dinlenmeye başlandı
