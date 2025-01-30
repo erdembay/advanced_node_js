@@ -2,14 +2,14 @@ const Product = require("../models/product"); // Product modeli import edildi
 const Cart = require("../models/cart"); // Cart modeli import edildi
 exports.getProducts = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
-  Product.fetchAll()
-    .then(([rows, fieldData]) => {
+  Product.findAll()
+    .then((product) => {
       // fetchAll metodu çağrıldı
       res.render("shop/product-list", {
-        prods: rows,
+        prods: product,
         pageTitle: "Shop",
         path: "/products",
-        hasProducts: rows.length > 0,
+        hasProducts: product.length > 0,
         activeShop: true,
         productCSS: true,
       }); // shop.ejs sayfası gönderildi
@@ -21,12 +21,12 @@ exports.getProducts = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   // product dizinine gelen GET isteğine karşılık bir fonksiyon tanımlandı
   const prodId = req?.params?.productId; // productId parametresi alındı
-  Product.findById(prodId)
-    .then(([rows, fieldData]) => {
+  Product.findByPk(prodId)
+    .then((product) => {
       // findById metodu çağrıldı
       res.render("shop/product-detail", {
-        product: rows[0],
-        pageTitle: rows[0]?.title,
+        product: product,
+        pageTitle: product?.title,
         path: "/products",
       }); // product-detail.ejs sayfası gönderildi
     })
@@ -36,14 +36,14 @@ exports.getProduct = (req, res, next) => {
 };
 exports.getIndex = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
-  Product.fetchAll()
-    .then(([rows, fieldData]) => {
+  Product.findAll()
+    .then((products) => {
       // fetchAll metodu çağrıldı
       res.render("shop/index", {
-        prods: rows,
+        prods: products,
         pageTitle: "Products",
         path: "/",
-        hasProducts: rows.length > 0,
+        hasProducts: products.length > 0,
       }); // shop.ejs sayfası gönderildi
     })
     .catch((err) => {

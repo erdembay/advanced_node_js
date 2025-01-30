@@ -17,7 +17,7 @@ sequelize
   .sync()
   .then((result) => {
     // sequelize ile sync fonksiyonu kullanıldı
-    console.log(result); // sonuç konsola yazdırıldı
+    // console.log(result); // sonuç konsola yazdırıldı
   })
   .catch((err) => {
     console.log(err); // hata konsola yazdırıldı
