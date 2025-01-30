@@ -3,7 +3,7 @@ const express = require("express"); // express modülü eklendi
 const rootDir = require("./utils/path"); // rootDir modülü eklendi
 const app = express(); // express uygulaması oluşturuldu
 const errorController = require("./controllers/error"); // errorController modülü eklendi
-const db = require("./utils/database"); // db modülü eklendi
+const sequelize = require("./utils/database"); // db modülü eklendi
 app.set("view engine", "ejs"); // view engine olarak ejs kullanıldı
 app.set("views", "views"); // views klasörü belirtildi
 const adminRoutes = require("./routes/admin"); // adminRoutes modülü eklendi
@@ -12,12 +12,14 @@ app.use(express.urlencoded({ extended: false })); // urlencoded veri alışveri�
 app.use(express.static(path.join(rootDir, "public"))); // public klasörüne erişim sağlandı
 app.use("/admin", adminRoutes); // adminRoutes middleware olarak kullanıldı
 app.use(shopRoutes); // shopRoutes middleware olarak kullanıldı
-db.execute("Select * From products")
-  .catch((err) => {
-    return console.log(err);
-  })
-  .then((res) => {
-    console.log(res[0], res[1]);
-  }); // products tablosundan tüm verileri çek
 app.use(errorController.get404Page); // 404 hatası için errorController.get404 fonksiyonu kullanıldı
+sequelize
+  .sync()
+  .then((result) => {
+    // sequelize ile sync fonksiyonu kullanıldı
+    console.log(result); // sonuç konsola yazdırıldı
+  })
+  .catch((err) => {
+    console.log(err); // hata konsola yazdırıldı
+  });
 app.listen(3000); // 3000 portu dinlenmeye başlandı

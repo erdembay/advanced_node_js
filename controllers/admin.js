@@ -86,7 +86,6 @@ exports.deleteProduct = (req, res, next) => {
   const prodId = req.body.productId; // productId parametresi alındı
   Product.deleteById(prodId)
     .then(([product]) => {
-      console.log("Deleted product", product); // console'a çıktı verildi
       res.redirect("/admin/products"); // yönlendirme yapıldı
     })
     .catch((err) => {
