@@ -103,11 +103,15 @@ exports.getAllProducts = (req, res, next) => {
 };
 exports.deleteProduct = (req, res, next) => {
   const prodId = req.body.productId; // productId parametresi alındı
-  Product.deleteById(prodId)
-    .then(([product]) => {
+  Product.findByPk(prodId)
+    .then((product) => {
+      return product.destroy();
+    })
+    .then((result) => {
+      console.log("PRODUCT DESTROYED");
       res.redirect("/admin/products"); // yönlendirme yapıldı
     })
     .catch((err) => {
       console.log(err);
-    }); // deleteById metodu çağrıldı
+    }); // deleteBy metodu çağrıldı
 };
