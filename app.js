@@ -34,26 +34,29 @@ Cart.belongsTo(User); // Cart modeli User modeline bağlandı
 Cart.belongsToMany(Product, { through: CartItem }); // Cart modeli Product modeline bağlandı
 Product.belongsToMany(Cart, { through: CartItem }); // Product modeli Cart modeline bağlandı
 sequelize
-  .sync(
-    // sequelize ile sync fonksiyonu kullanıldı
-    { force: true } // force true olarak ayarland
-  )
+  .sync
+  // sequelize ile sync fonksiyonu kullanıldı
+  // { force: true } // force true olarak ayarland
+  ()
   .then((result) => {
     // sequelize ile sync fonksiyonu kullanıldı
     // console.log(result); // sonuç konsola yazdırıldı
-    User.findByPk(1)
-      .then((user) => {
-        if (!user) {
-          return User.create({
-            name: "Erdem Bay",
-            email: "m.erdembay@gmail.com",
-          });
-        }
-        return user;
-      })
-      .then((user) => {
-        app.listen(3000); // 3000 portu dinlenmeye başlandı
+    return User.findByPk(1);
+  })
+  .then((user) => {
+    if (!user) {
+      return User.create({
+        name: "Erdem Bay",
+        email: "m.erdembay@gmail.com",
       });
+    }
+    return user;
+  })
+  .then((user) => {
+    return user.createCart();
+  })
+  .then((cart) => {
+    app.listen(3000); // 3000 portu dinlenmeye başlandı
   })
   .catch((err) => {
     console.log(err); // hata konsola yazdırıldı

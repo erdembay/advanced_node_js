@@ -52,29 +52,26 @@ exports.getIndex = (req, res, next) => {
 };
 exports.getCart = (req, res, next) => {
   // cart dizinine gelen GET isteğine karşılık bir fonksiyon tanımlandı
-  Cart.getCart((cart) => {
-    // getCart metodu çağrıldı
-    Product.fetchAll((products) => {
-      // fetchAll metodu çağrıldı
-      const cartProducts = [];
-      let total = 0;
-      for (product of products) {
-        const cartProductData = cart.products.find(
-          (prod) => prod.id === product.id
-        );
-        if (cartProductData) {
-          cartProducts.push({ productData: product, qty: cartProductData.qty });
-          total += product.price * cartProductData.qty;
-        }
-      }
-      res.render("shop/cart", {
-        pageTitle: "Cart",
-        path: "/cart",
-        products: cartProducts,
-        total: total,
-      }); // cart.ejs sayfası gönderildi
+  req.user
+    .getCart()
+    .then((cart) => {
+      return cart
+        .getProducts()
+        .then((products) => {
+          res.render("shop/cart", {
+            pageTitle: "Cart",
+            path: "/cart",
+            products: products,
+            total: 0,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  });
 };
 exports.postCart = (req, res, next) => {
   // cart dizinine gelen POST isteğine karşılık bir fonksiyon tanımlandı
