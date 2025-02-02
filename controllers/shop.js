@@ -128,10 +128,19 @@ exports.getOrders = (req, res, next) => {
 exports.postCartDeleteProduct = (req, res, next) => {
   // cart-delete-item dizinine gelen POST isteğine karşılık bir fonksiyon tanımlandı
   const prodId = req.body.productId; // productId parametresi alındı
-  Product.findById(prodId, (product) => {
-    // findById metodu çağrıldı
-    Cart.deleteProduct(prodId, product.price);
-    // deleteProduct metodu çağrıldı
-    res.redirect("/cart"); // cart sayfasına yönlendirme yapıldı
-  });
+  req.user
+    .getCart()
+    .then((cart) => {
+      return cart.getProducts({ where: { id: prodId } });
+    })
+    .then((products) => {
+      const product = products[0];
+      return product.cartItem.destroy();
+    })
+    .then(() => {
+      res.redirect("/cart");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
