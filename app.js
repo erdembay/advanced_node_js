@@ -8,6 +8,8 @@ const Product = require("./models/product"); // Product modeli eklendi
 const Cart = require("./models/cart"); // Cart modeli eklendi
 const CartItem = require("./models/cart-item"); // CartItem modeli eklendi
 const User = require("./models/user"); // User modeli eklendi
+const Order = require("./models/order"); // Order modeli eklendi
+const OrderItem = require("./models/order-item"); // OrderItem modeli eklendi
 app.set("view engine", "ejs"); // view engine olarak ejs kullanıldı
 app.set("views", "views"); // views klasörü belirtildi
 const adminRoutes = require("./routes/admin"); // adminRoutes modülü eklendi
@@ -33,6 +35,10 @@ User.hasOne(Cart); // User modeli Cart modeline bağlandı
 Cart.belongsTo(User); // Cart modeli User modeline bağlandı
 Cart.belongsToMany(Product, { through: CartItem }); // Cart modeli Product modeline bağlandı
 Product.belongsToMany(Cart, { through: CartItem }); // Product modeli Cart modeline bağlandı
+Order.belongsTo(User); // Order modeli User modeline bağlandı
+User.hasMany(Order); // User modeli Order modeline bağlandı
+Order.belongsToMany(Product, { through: OrderItem }); // Order modeli Product modeline bağlandı
+Product.belongsToMany(Order, { through: OrderItem }); // Product modeli Order modeline bağlandı
 sequelize
   .sync
   // sequelize ile sync fonksiyonu kullanıldı
