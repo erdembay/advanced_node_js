@@ -76,12 +76,40 @@ exports.getCart = (req, res, next) => {
 exports.postCart = (req, res, next) => {
   // cart dizinine gelen POST isteğine karşılık bir fonksiyon tanımlandı
   const prodId = req.body.productId; // productId parametresi alındı
-  Product.findById(prodId, (product) => {
-    // findById metodu çağrıldı
-    Cart.addProduct(prodId, product.price);
-    // addProduct metodu çağrıldı
-  }); // findById metodu çağrıldı
-  res.redirect("/cart"); // cart sayfasına yönlendirme yapıldı
+  let fetchedCart;
+  let newQuantity = 1;
+  req.user
+    .getCart()
+    .then((cart) => {
+      fetchedCart = cart; // getCart metodu çağrıldı
+      // findById metodu çağrıldı
+      return cart.getProducts({ where: { id: prodId } });
+      // addProduct metodu çağrıldı
+    })
+    .then(async (products) => {
+      let product;
+      if (products.length > 0) {
+        product = products[0];
+      }
+      if (product) {
+        const oldQuantity = await product.cartItem.quantity;
+        newQuantity = oldQuantity + 1;
+        return product;
+      } else {
+        return Product.findByPk(prodId);
+      }
+    })
+    .then((product) => {
+      return fetchedCart.addProduct(product, {
+        through: { quantity: newQuantity },
+      });
+    })
+    .then(() => {
+      res.redirect("/cart");
+    })
+    .catch((err) => {
+      console.log(err);
+    }); // findById metodu çağrıldı
 };
 exports.getCheckout = (req, res, next) => {
   // checkout dizinine gelen GET isteğine karşılık bir fonksiyon tanımlandı

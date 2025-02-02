@@ -37,6 +37,7 @@ sequelize
   .sync
   // sequelize ile sync fonksiyonu kullanıldı
   // { force: true } // force true olarak ayarland
+  // { force: true }
   ()
   .then((result) => {
     // sequelize ile sync fonksiyonu kullanıldı
