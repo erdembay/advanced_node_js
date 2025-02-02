@@ -14,8 +14,11 @@ exports.getEditProduct = (req, res, next) => {
     return res.redirect("/"); // anasayfaya yönlendirme yapılır
   }
   const prodId = req.params.productId; // productId parametresi alınır
-  Product.findByPk(prodId)
-    .then((product) => {
+  req.user
+    .getProducts({ where: { id: prodId } })
+    // Product.findByPk(prodId)
+    .then((products) => {
+      const product = products[0];
       if (!product) {
         // product yoksa
         return res.redirect("/"); // anasayfaya yönlendirme yapılır
@@ -59,12 +62,13 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req?.body?.imageUrl; // imageUrl değişkeni oluşturuldu
   const price = parseFloat(req?.body?.price); // price değişkeni oluşturuldu
   const description = req?.body?.description; // description değişkeni oluşturuldu
-  Product.create({
-    title: title,
-    price: price,
-    imageUrl: imageUrl,
-    description: description,
-  })
+  req.user
+    .createProduct({
+      title: title,
+      price: price,
+      imageUrl: imageUrl,
+      description: description,
+    })
     .then((result) => {
       console.log(result);
       res.redirect("/admin/products"); // yönlendirme yapıldı
@@ -75,7 +79,9 @@ exports.postAddProduct = (req, res, next) => {
 };
 exports.getProducts = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
-  Product.findAll()
+  // Product.findAll()
+  req.user
+    .getProducts()
     .then((products) => {
       // fetchAll metodu çağrıldı
       res.render("admin/products", {
@@ -86,20 +92,6 @@ exports.getProducts = (req, res, next) => {
       }); //
     })
     .catch((err) => console.log(err));
-};
-exports.getAllProducts = (req, res, next) => {
-  // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
-  Product.findAll((products) => {
-    // fetchAll metodu çağrıldı
-    res.render("shop/product-list", {
-      prods: products,
-      pageTitle: "Products",
-      path: "/products",
-      hasProducts: products.length > 0,
-      activeShop: true,
-      productCSS: true,
-    }); // shop.ejs sayfası gönderildi
-  });
 };
 exports.deleteProduct = (req, res, next) => {
   const prodId = req.body.productId; // productId parametresi alındı
