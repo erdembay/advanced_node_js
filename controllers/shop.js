@@ -137,9 +137,11 @@ exports.postCartDeleteProduct = (req, res, next) => {
     });
 };
 exports.postOrder = (req, res, next) => {
+  let fetchedCart;
   req.user
     .getCart()
     .then((cart) => {
+      fetchedCart = cart;
       return cart.getProducts();
     })
     .then((products) => {
@@ -158,6 +160,9 @@ exports.postOrder = (req, res, next) => {
         });
     })
     .then((result) => {
+      return fetchedCart.setProducts(null);
+    })
+    .then((result) => {
       res.redirect("/orders");
     })
     .catch((err) => {
@@ -166,8 +171,16 @@ exports.postOrder = (req, res, next) => {
 };
 exports.getOrders = (req, res, next) => {
   // checkout dizinine gelen GET isteğine karşılık bir fonksiyon tanımlandı
-  res.render("shop/orders", {
-    pageTitle: "My Orders",
-    path: "/orders",
-  }); // checkout.ejs sayfası gönderildi
+  req.user
+    .getOrders({ include: ["products"] })
+    .then((orders) => {
+      res.render("shop/orders", {
+        pageTitle: "My Orders",
+        path: "/orders",
+        orders: orders,
+      }); // checkout.ejs sayfası gönderildi
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };

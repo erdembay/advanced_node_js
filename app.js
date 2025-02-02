@@ -38,7 +38,6 @@ Product.belongsToMany(Cart, { through: CartItem }); // Product modeli Cart model
 Order.belongsTo(User); // Order modeli User modeline bağlandı
 User.hasMany(Order); // User modeli Order modeline bağlandı
 Order.belongsToMany(Product, { through: OrderItem }); // Order modeli Product modeline bağlandı
-Product.belongsToMany(Order, { through: OrderItem }); // Product modeli Order modeline bağlandı
 sequelize
   .sync
   // sequelize ile sync fonksiyonu kullanıldı
