@@ -1,5 +1,4 @@
 const Product = require("../models/product"); // Product modeli import edildi
-const Cart = require("../models/cart"); // Cart modeli import edildi
 exports.getProducts = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
   Product.findAll()
@@ -118,13 +117,6 @@ exports.getCheckout = (req, res, next) => {
     path: "/checkout",
   }); // checkout.ejs sayfası gönderildi
 };
-exports.getOrders = (req, res, next) => {
-  // checkout dizinine gelen GET isteğine karşılık bir fonksiyon tanımlandı
-  res.render("shop/orders", {
-    pageTitle: "My Orders",
-    path: "/orders",
-  }); // checkout.ejs sayfası gönderildi
-};
 exports.postCartDeleteProduct = (req, res, next) => {
   // cart-delete-item dizinine gelen POST isteğine karşılık bir fonksiyon tanımlandı
   const prodId = req.body.productId; // productId parametresi alındı
@@ -143,4 +135,39 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
+};
+exports.postOrder = (req, res, next) => {
+  req.user
+    .getCart()
+    .then((cart) => {
+      return cart.getProducts();
+    })
+    .then((products) => {
+      return req.user
+        .createOrder()
+        .then((order) => {
+          return order.addProducts(
+            products.map((product) => {
+              product.orderItem = { quantity: product.cartItem.quantity };
+              return product;
+            })
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .then((result) => {
+      res.redirect("/orders");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+exports.getOrders = (req, res, next) => {
+  // checkout dizinine gelen GET isteğine karşılık bir fonksiyon tanımlandı
+  res.render("shop/orders", {
+    pageTitle: "My Orders",
+    path: "/orders",
+  }); // checkout.ejs sayfası gönderildi
 };
