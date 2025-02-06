@@ -62,13 +62,9 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req?.body?.imageUrl; // imageUrl değişkeni oluşturuldu
   const price = parseFloat(req?.body?.price); // price değişkeni oluşturuldu
   const description = req?.body?.description; // description değişkeni oluşturuldu
-  req.user
-    .createProduct({
-      title: title,
-      price: price,
-      imageUrl: imageUrl,
-      description: description,
-    })
+  const product = new Product(title, price, imageUrl, description); // Product modelinden bir obje oluşturuldu
+  product
+    .save()
     .then((result) => {
       console.log(result);
       res.redirect("/admin/products"); // yönlendirme yapıldı
