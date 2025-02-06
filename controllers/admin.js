@@ -14,11 +14,8 @@ exports.getEditProduct = (req, res, next) => {
     return res.redirect("/"); // anasayfaya yönlendirme yapılır
   }
   const prodId = req.params.productId; // productId parametresi alınır
-  req.user
-    .getProducts({ where: { id: prodId } })
-    // Product.findByPk(prodId)
-    .then((products) => {
-      const product = products[0];
+  Product.findById(prodId)
+    .then((product) => {
       if (!product) {
         // product yoksa
         return res.redirect("/"); // anasayfaya yönlendirme yapılır
@@ -76,8 +73,7 @@ exports.postAddProduct = (req, res, next) => {
 exports.getProducts = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
   // Product.findAll()
-  req.user
-    .getProducts()
+  Product.fetchAll()
     .then((products) => {
       // fetchAll metodu çağrıldı
       res.render("admin/products", {
