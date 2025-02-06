@@ -32,12 +32,12 @@
                                     </td>
                                     <td>$<%= product.price %></td>
                                     <td>
-                                        <input type="number" value="<%= product.cartItem.quantity %>" min="1" max="10" data-id="<%= product.id %>" class="quantity">
+                                        <input type="number" value="<%= product.cartItem.quantity %>" min="1" max="10" data-id="<%= product._id %>" class="quantity">
                                     </td>
                                     <td>$<%= product.price * product.cartItem.quantity %></td>
                                     <td>
                                         <form action="/cart-delete-item" method="POST">
-                                            <input type="hidden" name="productId" value="<%= product.id %>">
+                                            <input type="hidden" name="productId" value="<%= product._id %>">
                                             <button class="btn">Delete</button>
                                         </form>
                                     </td>

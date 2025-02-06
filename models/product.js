@@ -38,7 +38,7 @@ class Product {
     return db
       .collection(collection)
       .find({ _id: new mongodb.ObjectId(prodId) })
-      .next()
+      .next() // find metodu ile dönen cursor nesnesinden next metodu ile bir sonraki elemana geçildi
       .then((product) => {
         return product;
       })
