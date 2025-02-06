@@ -89,10 +89,7 @@ exports.getProducts = (req, res, next) => {
 };
 exports.deleteProduct = (req, res, next) => {
   const prodId = req.body.productId; // productId parametresi alındı
-  Product.findByPk(prodId)
-    .then((product) => {
-      return product.destroy();
-    })
+  Product.deleteById(prodId)
     .then((result) => {
       console.log("PRODUCT DESTROYED");
       res.redirect("/admin/products"); // yönlendirme yapıldı
