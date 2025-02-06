@@ -7,7 +7,7 @@ const mongoConnect = require("./utils/database").mongoConnect; // db modülü ek
 app.set("view engine", "ejs"); // view engine olarak ejs kullanıldı
 app.set("views", "views"); // views klasörü belirtildi
 const adminRoutes = require("./routes/admin"); // adminRoutes modülü eklendi
-// const shopRoutes = require("./routes/shop"); // shopRoutes modülü eklendi
+const shopRoutes = require("./routes/shop"); // shopRoutes modülü eklendi
 app.use(express.urlencoded({ extended: false })); // urlencoded veri alışverişi için kullanıldı
 app.use(express.static(path.join(rootDir, "public"))); // public klasörüne erişim sağlandı
 app.use((req, res, next) => {
@@ -22,7 +22,7 @@ app.use((req, res, next) => {
   next();
 }); // middleware tanımlandı
 app.use("/admin", adminRoutes); // adminRoutes middleware olarak kullanıldı
-// app.use(shopRoutes); // shopRoutes middleware olarak kullanıldı
+app.use(shopRoutes); // shopRoutes middleware olarak kullanıldı
 app.use(errorController.get404Page); // 404 hatası için errorController.get404 fonksiyonu kullanıldı
 mongoConnect(() => {
   app.listen(3000); // 3000 portu dinlenmeye başlandı
