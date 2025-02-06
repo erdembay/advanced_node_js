@@ -1,4 +1,5 @@
 const Product = require("../models/product"); // Product modeli import edildi
+const { ObjectId } = require("mongodb");
 exports.getAddProduct = (req, res, next) => {
   res.render("admin/edit-product", {
     pageTitle: "Add Product",
@@ -38,14 +39,15 @@ exports.postEditProduct = (req, res, next) => {
   const updatedPrice = parseFloat(req.body.price); // price parametresi alınır
   const updatedImageUrl = req.body.imageUrl; // imageUrl parametresi alınır
   const updatedDesc = req.body.description; // description parametresi alınır
-  Product.findByPk(prodId)
-    .then((product) => {
-      product.title = updatedTitle;
-      product.price = updatedPrice;
-      product.imageUrl = updatedImageUrl;
-      product.description = updatedDesc;
-      return product.save();
-    })
+  const newProduct = new Product(
+    updatedTitle,
+    updatedPrice,
+    updatedImageUrl,
+    updatedDesc,
+    new ObjectId(prodId)
+  );
+  newProduct
+    .save()
     .then((result) => {
       console.log("UPDATED PRODUCT!");
       res.redirect("/admin/products");
