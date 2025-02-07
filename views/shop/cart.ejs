@@ -23,21 +23,21 @@
                                 <tr>
                                     <td>
                                         <div class="product">
-                                            <img width="5%" src="<%= product.imageUrl %>" alt="<%= product.title %>">
+                                            <img width="5%" src="<%= product?.imageUrl %>" alt="<%= product?.title %>">
                                             <div>
-                                                <h3><%= product.title %></h3>
-                                                <p><%= product.description %></p>
+                                                <h3><%= product?.title %></h3>
+                                                <p><%= product?.description %></p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>$<%= product.price %></td>
+                                    <td>$<%= product?.price %></td>
                                     <td>
-                                        <input type="number" value="<%= product.cartItem.quantity %>" min="1" max="10" data-id="<%= product._id %>" class="quantity">
+                                        <input type="number" value="<%= product?.quantity %>" min="1" max="10" data-id="<%= product?._id %>" class="quantity">
                                     </td>
-                                    <td>$<%= product.price * product.cartItem.quantity %></td>
+                                    <td>$<%= product?.price * product?.quantity %></td>
                                     <td>
                                         <form action="/cart-delete-item" method="POST">
-                                            <input type="hidden" name="productId" value="<%= product._id %>">
+                                            <input type="hidden" name="productId" value="<%= product?._id %>">
                                             <button class="btn">Delete</button>
                                         </form>
                                     </td>

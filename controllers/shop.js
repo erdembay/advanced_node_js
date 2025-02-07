@@ -52,57 +52,19 @@ exports.getIndex = (req, res, next) => {
 };
 exports.getCart = (req, res, next) => {
   // cart dizinine gelen GET isteğine karşılık bir fonksiyon tanımlandı
-  req.user
-    .getCart()
-    .then((cart) => {
-      return cart
-        .getProducts()
-        .then((products) => {
-          res.render("shop/cart", {
-            pageTitle: "Cart",
-            path: "/cart",
-            products: products,
-            total: 0,
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  res.render("shop/cart", {
+    pageTitle: "Cart",
+    path: "/cart",
+    products: req.user.cart.items ?? [],
+    total: 0,
+  });
 };
 exports.postCart = (req, res, next) => {
   // cart dizinine gelen POST isteğine karşılık bir fonksiyon tanımlandı
   const prodId = req.body.productId; // productId parametresi alındı
-  let fetchedCart;
-  let newQuantity = 1;
-  req.user
-    .getCart()
-    .then((cart) => {
-      fetchedCart = cart; // getCart metodu çağrıldı
-      // findById metodu çağrıldı
-      return cart.getProducts({ where: { id: prodId } });
-      // addProduct metodu çağrıldı
-    })
-    .then(async (products) => {
-      let product;
-      if (products.length > 0) {
-        product = products[0];
-      }
-      if (product) {
-        const oldQuantity = await product.cartItem.quantity;
-        newQuantity = oldQuantity + 1;
-        return product;
-      } else {
-        return Product.findByPk(prodId);
-      }
-    })
+  Product.findById(prodId)
     .then((product) => {
-      return fetchedCart.addProduct(product, {
-        through: { quantity: newQuantity },
-      });
+      return req.user.addToCart(product);
     })
     .then(() => {
       res.redirect("/cart");

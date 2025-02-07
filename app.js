@@ -14,7 +14,7 @@ app.use(express.static(path.join(rootDir, "public"))); // public klasörüne eri
 app.use((req, res, next) => {
   User.findById("67a62ba54a6e0600e9dd52de")
     .then((user) => {
-      req.user = user; // user request objesine eklendi
+      req.user = new User(user.username, user.email, user.cart, user._id); // user request objesine eklendi
       next(); // sonraki middleware'e geçildi
     })
     .catch((err) => {
