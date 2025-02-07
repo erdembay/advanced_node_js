@@ -39,12 +39,14 @@ exports.postEditProduct = (req, res, next) => {
   const updatedPrice = parseFloat(req.body.price); // price parametresi alınır
   const updatedImageUrl = req.body.imageUrl; // imageUrl parametresi alınır
   const updatedDesc = req.body.description; // description parametresi alınır
+  const userId = req.user._id; // user id alınır
   const newProduct = new Product(
     updatedTitle,
     updatedPrice,
     updatedImageUrl,
     updatedDesc,
-    new ObjectId(prodId)
+    new ObjectId(prodId),
+    userId
   );
   newProduct
     .save()
@@ -61,7 +63,15 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req?.body?.imageUrl; // imageUrl değişkeni oluşturuldu
   const price = parseFloat(req?.body?.price); // price değişkeni oluşturuldu
   const description = req?.body?.description; // description değişkeni oluşturuldu
-  const product = new Product(title, price, imageUrl, description); // Product modelinden bir obje oluşturuldu
+  const userId = req?.user?._id; // user id alındı
+  const product = new Product(
+    title,
+    price,
+    imageUrl,
+    description,
+    null,
+    userId
+  ); // Product modelinden bir obje oluşturuldu
   product
     .save()
     .then((result) => {
