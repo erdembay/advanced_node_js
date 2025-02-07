@@ -55,7 +55,7 @@ exports.getCart = (req, res, next) => {
   res.render("shop/cart", {
     pageTitle: "Cart",
     path: "/cart",
-    products: req.user.cart.items ?? [],
+    products: req.user?.cart?.items ?? [],
     total: 0,
   });
 };
