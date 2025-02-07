@@ -64,7 +64,8 @@ class User {
       return cp.productId.equals(product._id);
     });
     const updatedCartItems = [...this.cart.items];
-    updatedCartItems.splice(findIndex, 1);
+    // delete updatedCartItems[findIndex]; // Kullanılamıyor Çünkü boş bir eleman bırakıyor...
+    updatedCartItems.splice(findIndex, 1); // remove the product from the cart Kullanılabiliyor çünkü elemanı siliyor
     return getDb()
       .collection(collection)
       .updateOne(
