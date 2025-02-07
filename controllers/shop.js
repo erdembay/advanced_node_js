@@ -52,12 +52,19 @@ exports.getIndex = (req, res, next) => {
 };
 exports.getCart = (req, res, next) => {
   // cart dizinine gelen GET isteğine karşılık bir fonksiyon tanımlandı
-  res.render("shop/cart", {
-    pageTitle: "Cart",
-    path: "/cart",
-    products: req.user?.cart?.items ?? [],
-    total: 0,
-  });
+  req.user
+    .getCart()
+    .then((cart) => {
+      return res.render("shop/cart", {
+        pageTitle: "Cart",
+        path: "/cart",
+        products: cart ?? [],
+        total: 0,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 exports.postCart = (req, res, next) => {
   // cart dizinine gelen POST isteğine karşılık bir fonksiyon tanımlandı
