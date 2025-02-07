@@ -4,6 +4,7 @@ const rootDir = require("./utils/path"); // rootDir modülü eklendi
 const app = express(); // express uygulaması oluşturuldu
 const errorController = require("./controllers/error"); // errorController modülü eklendi
 const mongoConnect = require("./utils/database").mongoConnect; // db modülü eklendi
+const User = require("./models/user"); // User modeli eklendi
 app.set("view engine", "ejs"); // view engine olarak ejs kullanıldı
 app.set("views", "views"); // views klasörü belirtildi
 const adminRoutes = require("./routes/admin"); // adminRoutes modülü eklendi
@@ -11,15 +12,14 @@ const shopRoutes = require("./routes/shop"); // shopRoutes modülü eklendi
 app.use(express.urlencoded({ extended: false })); // urlencoded veri alışverişi için kullanıldı
 app.use(express.static(path.join(rootDir, "public"))); // public klasörüne erişim sağlandı
 app.use((req, res, next) => {
-  // User.findByPk(1)
-  //   .then((user) => {
-  //     req.user = user; // user request objesine eklendi
-  //     next(); // sonraki middleware'e geçildi
-  //   })
-  //   .catch((err) => {
-  //     console.log(err); // hata konsola yazdırıldı
-  //   });
-  next();
+  User.findById("67a62ba54a6e0600e9dd52de")
+    .then((user) => {
+      req.user = user; // user request objesine eklendi
+      next(); // sonraki middleware'e geçildi
+    })
+    .catch((err) => {
+      console.log(err); // hata konsola yazdırıldı
+    });
 }); // middleware tanımlandı
 app.use("/admin", adminRoutes); // adminRoutes middleware olarak kullanıldı
 app.use(shopRoutes); // shopRoutes middleware olarak kullanıldı
