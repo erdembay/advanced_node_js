@@ -59,6 +59,19 @@ class User {
         });
       });
   }
+  deleteItemFromCart(product) {
+    const findIndex = this.cart.items.findIndex((cp) => {
+      return cp.productId.equals(product._id);
+    });
+    const updatedCartItems = [...this.cart.items];
+    updatedCartItems.splice(findIndex, 1);
+    return getDb()
+      .collection(collection)
+      .updateOne(
+        { _id: new ObjectId(this._id) },
+        { $set: { cart: { items: updatedCartItems } } }
+      );
+  }
   static findById(userId) {
     // find the user by id
     return getDb()

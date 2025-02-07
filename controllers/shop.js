@@ -90,16 +90,11 @@ exports.getCheckout = (req, res, next) => {
 exports.postCartDeleteProduct = (req, res, next) => {
   // cart-delete-item dizinine gelen POST isteğine karşılık bir fonksiyon tanımlandı
   const prodId = req.body.productId; // productId parametresi alındı
-  req.user
-    .getCart()
-    .then((cart) => {
-      return cart.getProducts({ where: { id: prodId } });
+  Product.findById(prodId)
+    .then((product) => {
+      return req.user.deleteItemFromCart(product);
     })
-    .then((products) => {
-      const product = products[0];
-      return product.cartItem.destroy();
-    })
-    .then(() => {
+    .then((result) => {
       res.redirect("/cart");
     })
     .catch((err) => {
