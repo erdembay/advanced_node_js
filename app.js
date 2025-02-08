@@ -13,9 +13,9 @@ const shopRoutes = require("./routes/shop"); // shopRoutes modülü eklendi
 app.use(express.urlencoded({ extended: false })); // urlencoded veri alışverişi için kullanıldı
 app.use(express.static(path.join(rootDir, "public"))); // public klasörüne erişim sağlandı
 app.use((req, res, next) => {
-  User.findById("67a62ba54a6e0600e9dd52de")
+  User.findById("67a6acbb4a6e0600e9dd52e8")
     .then((user) => {
-      req.user = new User(user.username, user.email, user.cart, user._id); // user request objesine eklendi
+      req.user = user; // user bilgisi request objesine eklendi
       next(); // sonraki middleware'e geçildi
     })
     .catch((err) => {

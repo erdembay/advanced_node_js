@@ -64,16 +64,13 @@ exports.postAddProduct = (req, res, next) => {
   const price = parseFloat(req?.body?.price); // price değişkeni oluşturuldu
   const description = req?.body?.description; // description değişkeni oluşturuldu
   const userId = req?.user?._id; // user id alındı
-  const product = new Product(
-    title,
-    price,
-    imageUrl,
-    description,
-    null,
-    userId
-  ); // Product modelinden bir obje oluşturuldu
-  product
-    .save()
+  Product.create({
+    title: title,
+    price: price,
+    imageUrl: imageUrl,
+    description: description,
+    userId: userId,
+  })
     .then((result) => {
       console.log(result);
       res.redirect("/admin/products"); // yönlendirme yapıldı
@@ -85,7 +82,7 @@ exports.postAddProduct = (req, res, next) => {
 exports.getProducts = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
   // Product.findAll()
-  Product.fetchAll()
+  Product.find()
     .then((products) => {
       // fetchAll metodu çağrıldı
       res.render("admin/products", {

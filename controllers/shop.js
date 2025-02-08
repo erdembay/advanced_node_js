@@ -2,7 +2,7 @@ const Product = require("../models/product"); // Product modeli import edildi
 exports.getProducts = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
 
-  Product.fetchAll()
+  Product.find()
     .then((product) => {
       // fetchAll metodu çağrıldı
       res.render("shop/product-list", {
@@ -36,7 +36,7 @@ exports.getProduct = (req, res, next) => {
 };
 exports.getIndex = (req, res, next) => {
   // kök dizine gelen GET isteğine karşılık bir fonksiyon tanımlandı
-  Product.fetchAll()
+  Product.find()
     .then((products) => {
       // fetchAll metodu çağrıldı
       res.render("shop/index", {
