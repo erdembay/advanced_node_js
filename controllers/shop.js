@@ -69,7 +69,7 @@ exports.getCart = (req, res, next) => {
 exports.postCart = (req, res, next) => {
   // cart dizinine gelen POST isteğine karşılık bir fonksiyon tanımlandı
   const prodId = req.body.productId; // productId parametresi alındı
-  Product.findById(prodId)
+  Product.findById(prodId.toString())
     .then((product) => {
       return req.user.addToCart(product);
     })

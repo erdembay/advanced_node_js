@@ -39,17 +39,12 @@ exports.postEditProduct = (req, res, next) => {
   const updatedPrice = parseFloat(req.body.price); // price parametresi alınır
   const updatedImageUrl = req.body.imageUrl; // imageUrl parametresi alınır
   const updatedDesc = req.body.description; // description parametresi alınır
-  const userId = req.user._id; // user id alınır
-  const newProduct = new Product(
-    updatedTitle,
-    updatedPrice,
-    updatedImageUrl,
-    updatedDesc,
-    new ObjectId(prodId),
-    userId
-  );
-  newProduct
-    .save()
+  Product.findByIdAndUpdate(prodId, {
+    title: updatedTitle,
+    price: updatedPrice,
+    imageUrl: updatedImageUrl,
+    description: updatedDesc,
+  })
     .then((result) => {
       console.log("UPDATED PRODUCT!");
       res.redirect("/admin/products");

@@ -25,5 +25,4 @@ const userSchema = new Schema(
   },
   { timestamps: true, versionKey: false }
 );
-const User = Mongoose.model("User", userSchema);
-module.exports = User;
+module.exports = Mongoose.model("User", userSchema);
