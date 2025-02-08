@@ -3,7 +3,8 @@ const express = require("express"); // express modülü eklendi
 const rootDir = require("./utils/path"); // rootDir modülü eklendi
 const app = express(); // express uygulaması oluşturuldu
 const errorController = require("./controllers/error"); // errorController modülü eklendi
-const mongoConnect = require("./utils/database").mongoConnect; // db modülü eklendi
+// const mongoConnect = require("./utils/database").mongoConnect; // db modülü eklendi
+const mongoose = require("mongoose"); // mongoose modülü eklendi
 const User = require("./models/user"); // User modeli eklendi
 app.set("view engine", "ejs"); // view engine olarak ejs kullanıldı
 app.set("views", "views"); // views klasörü belirtildi
@@ -24,6 +25,15 @@ app.use((req, res, next) => {
 app.use("/admin", adminRoutes); // adminRoutes middleware olarak kullanıldı
 app.use(shopRoutes); // shopRoutes middleware olarak kullanıldı
 app.use(errorController.get404Page); // 404 hatası için errorController.get404 fonksiyonu kullanıldı
-mongoConnect(() => {
-  app.listen(3000); // 3000 portu dinlenmeye başlandı
-}); // mongoConnect fonksiyonu çalıştırıldı
+// mongoConnect(() => {
+//   app.listen(3000); // 3000 portu dinlenmeye başlandı
+// }); // mongoConnect fonksiyonu çalıştırıldı
+mongoose
+  .connect("mongodb://localhost:27017/node-complete")
+  .then((result) => {
+    console.log("Connected to MongoDB");
+    app.listen(3000); // 3000 portu dinlenmeye başlandı
+  })
+  .catch((err) => {
+    console.log(err);
+  });
