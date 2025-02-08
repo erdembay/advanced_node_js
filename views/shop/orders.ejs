@@ -23,8 +23,8 @@
                                 <td><%= order?._id %></td>
                                 <td>
                                     <ul>
-                                        <% order?.products.forEach(item => { %>
-                                            <li><%= item.title %> - <%= item.orderItem.quantity %> x $<%= item.price %></li>
+                                        <% order?.items.forEach(item => { %>
+                                            <li><%= item?.title %> - <%= item?.quantity %> x $<%= item?.price %></li>
                                         <% }) %>
                                     </ul>
                                 </td>

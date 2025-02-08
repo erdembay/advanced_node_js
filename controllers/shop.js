@@ -115,12 +115,12 @@ exports.postOrder = (req, res, next) => {
 exports.getOrders = (req, res, next) => {
   // checkout dizinine gelen GET isteğine karşılık bir fonksiyon tanımlandı
   req.user
-    .getOrders({ include: ["products"] })
+    .getOrders()
     .then((orders) => {
       res.render("shop/orders", {
         pageTitle: "My Orders",
         path: "/orders",
-        orders: orders,
+        orders: orders ?? [],
       }); // checkout.ejs sayfası gönderildi
     })
     .catch((err) => {
